@@ -1,0 +1,65 @@
+
+int joyX=A0;
+int joyY=A1;
+
+int VRx;
+int VRy;
+int Buzz = 10;
+int incomingByte = 0;
+int control_information;
+
+
+
+// the setup routine runs once when you press reset:
+void setup() {
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+  // initialize digital pin joystick as an output.
+  pinMode(joyX, INPUT);
+  pinMode(joyY, INPUT);
+  pinMode(Buzz, OUTPUT);
+
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+
+  VRx  = analogRead(joyX);
+  VRy = analogRead(joyY);
+
+  //Python code: ser.write(b'E')
+  // read from the Serial port:
+  if (Serial.available() > 0) {
+    // read the incoming byte:
+    incomingByte = Serial.read();
+    Serial.println(incomingByte);
+    
+    if(incomingByte == 'E') {
+      // Buzzer
+      digitalWrite(Buzz, HIGH);
+      delay(300);
+      digitalWrite(Buzz, LOW);
+    }
+  }
+
+  //output Arduino input]
+  if (VRx >=0 && VRy<=10){//-Y down
+    Serial.println('w');
+    delay(300);
+  }
+    else if (VRx <=10 && VRy>=500){//-X left
+    Serial.println('a');
+    delay(300);
+    }
+    else if (VRx >=1020 && VRy>=500){//+X right
+    Serial.println('d');
+    delay(300);
+    }
+    else if (VRx >=50 && VRy>=1020){//+Y up
+    Serial.println('s');
+    delay(300);
+    }
+
+ 
+
+}
